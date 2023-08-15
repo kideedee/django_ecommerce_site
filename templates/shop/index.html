@@ -39,7 +39,8 @@
                             <a class="nav-link" href="#">Features</a>
                         </li>
                         <li class="nav-item">
-                            <button id="cart" data-html="true" type="button" class="btn btn-secondary" data-container="body"
+                            <button id="cart" data-html="true" type="button" class="btn btn-secondary"
+                                    data-container="body"
                                     data-toggle="popover"
                                     data-placement="bottom" data-content="Bottom popover">
                                 Cart(0)
@@ -76,7 +77,7 @@
                 <div class="card">
                     <img src="{{ product.image }}" alt="" class="card-img-top">
                     <div class="card-body">
-                        <div class="card-title">
+                        <div id="nm{{ product.id }}" class="card-title">
                             {{ product.title }}
                         </div>
                         <div class="card-text">
@@ -116,11 +117,6 @@
 
 </body>
 <script type="text/javascript">
-    $(function () {
-        $('[data-toggle="popover"]').popover();
-        document.getElementById('cart').setAttribute('data-content','<h5>This is your cart</h5>')
-    });
-
     if (localStorage.getItem('cart') == null) {
         var cart = {};
     } else {
@@ -138,6 +134,21 @@
         localStorage.setItem('cart', JSON.stringify(cart));
         document.getElementById('cart').innerHTML = "Cart(" + Object.keys(cart).length + ")";
     });
+
+    displayCart(cart);
+
+    function displayCart(cart) {
+        var cartString = "";
+        cartString += '<h5>This is your cart</h5>'
+        var cartIndex = 1;
+        for (var x in cart) {
+            cartString += cartIndex;
+            cartString += document.getElementById('nm' + x).innerHTML + "Qty: " + cart[x] + '</br>';
+            cartIndex++;
+        }
+        document.getElementById("cart").setAttribute('data-content', cartString);
+        $('[data-toggle="popover"]').popover();
+    }
 </script>
 </html>
 
