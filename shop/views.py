@@ -1,7 +1,7 @@
 from django.core.paginator import Paginator
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 
-from shop.models import Product
+from shop.models import Product, Order
 
 
 def index(request):
@@ -25,4 +25,16 @@ def detail(request, prd_id):
 
 
 def checkout(request):
+    if request.method == 'POST':
+        name = request.POST.get('name', '')
+        email = request.POST.get('email', '')
+        address = request.POST.get('address', '')
+        city = request.POST.get('city', '')
+        state = request.POST.get('state', '')
+        zipcode = request.POST.get('zipcode', '')
+
+        order = Order(name=name, email=email, address=address, city=city, state=state, zipcode=zipcode)
+        order.save()
+        return redirect('index')
+
     return render(request, 'shop/checkout.html')
