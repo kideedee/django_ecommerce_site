@@ -22,3 +22,7 @@ def detail(request, prd_id):
     product_objects = Product.objects.get(id=prd_id)
 
     return render(request, 'shop/detail.html', {'product_objects': product_objects})
+
+
+def checkout(request):
+    return render(request, 'shop/checkout.html')
