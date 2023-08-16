@@ -8,8 +8,14 @@ admin.site.index_title = 'Manage ABC Shop'
 
 
 class ProductAdmin(admin.ModelAdmin):
+
+    def change_category_to_default(self, request, queryset):
+        queryset.update(category='default')
+
+    change_category_to_default.short_description = 'Default Category'
     list_display = ['title', 'price', 'discount_price', 'category', 'description', 'image']
-    search_fields = ('title')
+    search_fields = ('title',)
+    actions = ('change_category_to_default',)
 
 
 admin.site.register(Product, ProductAdmin)
